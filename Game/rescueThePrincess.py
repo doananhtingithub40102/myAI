@@ -171,6 +171,7 @@ play_sound = pygame.mixer.Sound("assets/sound/play_sound.wav")
 reset_sound = pygame.mixer.Sound("assets/sound/reset_sound.wav")
 start_sound = pygame.mixer.Sound("assets/sound/start_sound.wav")
 title_font = pygame.font.Font("assets/font/BeatWordDemo-nRL20.ttf", 35)
+step_font = pygame.font.Font("assets/font/BeatWordDemo-nRL20.ttf", 20)
 start_font = pygame.font.Font("assets/font/EvilEmpire-4BBVK.ttf", 25)
 reset_font = pygame.font.Font("assets/font/EvilEmpire-4BBVK.ttf", 25)
 prince = pygame.image.load("assets/image/prince.png").convert_alpha()
@@ -181,6 +182,7 @@ princeIcon = pygame.image.load("assets/image/princeIcon.png").convert_alpha()
 princessIcon = pygame.image.load("assets/image/princessIcon.png").convert_alpha()
 
 WHITE = (255, 255, 255)
+FPS = 5 # frames-per-second
 isPlay = False
 grid = 10
 top_left = (50, 120)
@@ -194,6 +196,7 @@ arr_princeCoord = [(0, 0)]
 isSuccessfullyBoard = False
 isStart = False
 endCoord_prince = ()
+step = 0
 
 # Tạo vòng lặp cho pygame
 while True:
@@ -217,15 +220,22 @@ while True:
             # Khi nhấn button "RESET"
             if isSuccessfullyBoard and isStart == False and mouse[0] >= 553 and mouse[0] <= 674 and mouse[1] >= 194 and mouse[1] <= 243:
                 reset_sound.play()
+                step = 0
                 isSuccessfullyBoard = False
 
     # Lưu trữ 1 tuple chứa tọa độ (x, y) của chuột ghi rê vào screen
     mouse = pygame.mouse.get_pos()
-    # print(f"{mouse[0]}, {mouse[1]}")
 
     if isPlay:
         screen.fill((32, 23, 86))
         control_panel(mouse)
+
+        if isStart and arr_princeCoord and arr_princeCoord[0] != (0, 0):
+            step += 1
+        stepFont_surface = step_font.render(f'STEP: {step}', True, (255, 255, 255))
+        stepFont_rect = stepFont_surface.get_rect(topleft=(50, 70))
+        screen.blit(stepFont_surface, stepFont_rect)
+
         board_game()
         if isSuccessfullyBoard == False:
             arr_ghostesCoord, arr_princeCoord = setting_ghostesANDprinceCoord()
@@ -256,4 +266,4 @@ while True:
     pygame.display.update()
 
     # Tốc độ khung hình mỗi giây
-    clock.tick(10)  # 10 FPS (frames-per-second)
+    clock.tick(FPS)
