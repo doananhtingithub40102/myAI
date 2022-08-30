@@ -62,28 +62,28 @@ def control_panel(mouse_coord):
 
     start_borderColor = "assets/image/blueBorder.png"
     start_textColor = (97, 168, 214)
-    reset_borderColor = "assets/image/blueBorder.png"
-    reset_textColor = (97, 168, 214)
+    new_borderColor = "assets/image/blueBorder.png"
+    new_textColor = (97, 168, 214)
 
-    # khi rê chuột đến button "PRESS START"
+    # khi rê chuột đến button "START"
     if mouse_coord[0] >= 538 and mouse_coord[0] <= 684 and mouse_coord[1] >= 119 and mouse_coord[1] <= 179:
         start_borderColor = "assets/image/yellowBorder.png"
         start_textColor = (209, 187, 19)
     
-    # khi rê chuột đến button "RESET"
+    # khi rê chuột đến button "NEW"
     if mouse_coord[0] >= 553 and mouse_coord[0] <= 674 and mouse_coord[1] >= 194 and mouse_coord[1] <= 243:
-        reset_borderColor = "assets/image/yellowBorder.png"
-        reset_textColor = (209, 187, 19)
+        new_borderColor = "assets/image/yellowBorder.png"
+        new_textColor = (209, 187, 19)
 
     start_border = pygame.image.load(start_borderColor).convert_alpha()
     startBorder_rect = start_border.get_rect(midright=(680, 150))
-    startFont_surface = start_font.render("PRESS START", True, start_textColor)
-    startFont_rect = startFont_surface.get_rect(midright=(670, 150))
+    startFont_surface = start_font.render("START", True, start_textColor)
+    startFont_rect = startFont_surface.get_rect(midright=(640, 150))
 
-    reset_border = pygame.image.load(reset_borderColor).convert_alpha()
-    resetBorder_rect = reset_border.get_rect(midright=(680, 220))
-    resetFont_surface = reset_font.render("RESET", True, reset_textColor)
-    resetFont_rect = resetFont_surface.get_rect(midright=(640, 220))
+    new_border = pygame.image.load(new_borderColor).convert_alpha()
+    newBorder_rect = new_border.get_rect(midright=(680, 220))
+    newFont_surface = new_font.render("NEW", True, new_textColor)
+    newFont_rect = newFont_surface.get_rect(midright=(635, 220))
 
     prince_rect = prince.get_rect(bottomright=(700, 480))
     princess_rect = princess.get_rect(bottomright=(780, 380))
@@ -93,8 +93,8 @@ def control_panel(mouse_coord):
     screen.blit(title_surface, title_rect)
     screen.blit(start_border, startBorder_rect)
     screen.blit(startFont_surface, startFont_rect)
-    screen.blit(reset_border, resetBorder_rect)
-    screen.blit(resetFont_surface, resetFont_rect)
+    screen.blit(new_border, newBorder_rect)
+    screen.blit(newFont_surface, newFont_rect)
     screen.blit(princess, princess_rect)
     screen.blit(dragon, dragon_rect)
     screen.blit(prince, prince_rect)
@@ -173,7 +173,7 @@ start_sound = pygame.mixer.Sound("assets/sound/start_sound.wav")
 title_font = pygame.font.Font("assets/font/BeatWordDemo-nRL20.ttf", 35)
 step_font = pygame.font.Font("assets/font/BeatWordDemo-nRL20.ttf", 20)
 start_font = pygame.font.Font("assets/font/EvilEmpire-4BBVK.ttf", 25)
-reset_font = pygame.font.Font("assets/font/EvilEmpire-4BBVK.ttf", 25)
+new_font = pygame.font.Font("assets/font/EvilEmpire-4BBVK.ttf", 25)
 prince = pygame.image.load("assets/image/prince.png").convert_alpha()
 princess = pygame.image.load("assets/image/princess.png").convert_alpha()
 dragon = pygame.image.load("assets/image/dragon.png").convert_alpha()
@@ -182,7 +182,7 @@ princeIcon = pygame.image.load("assets/image/princeIcon.png").convert_alpha()
 princessIcon = pygame.image.load("assets/image/princessIcon.png").convert_alpha()
 
 WHITE = (255, 255, 255)
-FPS = 5 # frames-per-second
+FPS = 15 # frames-per-second
 isPlay = False
 grid = 10
 top_left = (50, 120)
@@ -200,6 +200,9 @@ step = 0
 
 # Tạo vòng lặp cho pygame
 while True:
+    
+    # Lưu trữ 1 tuple chứa tọa độ (x, y) của chuột ghi rê vào screen
+    mouse = pygame.mouse.get_pos()
 
     # Lấy tất cả sự kiện pygame xảy ra
     for event in pygame.event.get():
@@ -212,19 +215,16 @@ while True:
                 play_sound.play()
                 isPlay = True
 
-            # Khi nhấn button "PRESS START"
+            # Khi nhấn button "START"
             if isPlay and isStart == False and mouse[0] >= 538 and mouse[0] <= 684 and mouse[1] >= 119 and mouse[1] <= 179:
                 start_sound.play()
                 isStart = True
 
-            # Khi nhấn button "RESET"
+            # Khi nhấn button "NEW"
             if isSuccessfullyBoard and isStart == False and mouse[0] >= 553 and mouse[0] <= 674 and mouse[1] >= 194 and mouse[1] <= 243:
                 reset_sound.play()
                 step = 0
                 isSuccessfullyBoard = False
-
-    # Lưu trữ 1 tuple chứa tọa độ (x, y) của chuột ghi rê vào screen
-    mouse = pygame.mouse.get_pos()
 
     if isPlay:
         screen.fill((32, 23, 86))
